@@ -1,9 +1,3 @@
-//TODO
-  //remove position input & Toggle Completed button
-  //BUG: check that when box is checked completed = true
-  //BUG: checkbox is left unchecked again after check
-
-
 
 var todoList = {
   todos: [],
@@ -87,7 +81,7 @@ var view = {
     var checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.className = "checkbox";
-    if (todo.completed === true) {
+    if (todo.completed === true) { //link completed status with checkmark
       checkbox.checked = true;
     }
     return checkbox;
