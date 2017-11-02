@@ -1,3 +1,10 @@
+//TODO
+  //add checkboxes instead of '(x)' to each todo
+  //clicking checkbox will run toggleCompleted function
+  //remove position input & Toggle Completed button
+
+
+
 var todoList = {
   todos: [],
   addTodo: function(todoText) {
@@ -62,6 +69,7 @@ var view = {
     todosUl.innerHTML = '';
     todoList.todos.forEach(function(todo, position) {
       var todoLi = document.createElement('li');
+
       var todoTextWithCompletion = '';
 
       if (todo.completed === true) {
@@ -72,13 +80,22 @@ var view = {
       
       todoLi.id = position;     
       todoLi.textContent = todoTextWithCompletion;
+      todoLi.appendChild(this.createCheckbox());
       todoLi.appendChild(this.createDeleteButton());
       todosUl.appendChild(todoLi);
     }, this);
   },
+  
+  createCheckbox: function() {
+    var checkbox = document.createElement('input');
+    checkbox.type = "checkbox";
+    return checkbox;
+  },
+
+
   createDeleteButton: function() {
     var deleteButton = document.createElement("button");
-    deleteButton.textContent = 'Delete';
+    deleteButton.textContent = 'X';
     deleteButton.className = 'deleteButton';    
     return deleteButton;
   },
