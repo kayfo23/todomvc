@@ -2,6 +2,7 @@
   //add checkboxes instead of '(x)' to each todo
   //clicking checkbox will run toggleCompleted function
   //remove position input & Toggle Completed button
+  //BUG: clicking checkbox immediately removes todo item
 
 
 
@@ -51,6 +52,8 @@ var handlers = {
     todoList.deleteTodo(position);
     view.displayTodos();
   },
+
+  //place this on each checkbox 
   toggleCompleted: function() {
     var toggleCompletedPositionInput = document.getElementById('toggleCompletedPositionInput');
     todoList.toggleCompleted(toggleCompletedPositionInput.valueAsNumber);
@@ -70,28 +73,36 @@ var view = {
     todoList.todos.forEach(function(todo, position) {
       var todoLi = document.createElement('li');
 
-      var todoTextWithCompletion = '';
 
-      if (todo.completed === true) {
-        todoTextWithCompletion = '(x) ' + todo.todoText;
-      } else {
-        todoTextWithCompletion = '( ) ' + todo.todoText;
-      }
+      // var todoTextWithCompletion = '';
+      // if (todo.completed === true) {
+      //   todoTextWithCompletion = '(x) ' + todo.todoText;
+      // } else {
+      //   todoTextWithCompletion = '( ) ' + todo.todoText;
+      // }
       
-      todoLi.id = position;     
-      todoLi.textContent = todoTextWithCompletion;
+      todoLi.id = position;
+      //todoLi.textContent = todo.todoText;     
+      //todoLi.textContent = todoTextWithCompletion;
       todoLi.appendChild(this.createCheckbox());
+      todoLi.appendChild(this.createTodoText(todo));
       todoLi.appendChild(this.createDeleteButton());
       todosUl.appendChild(todoLi);
     }, this);
   },
   
   createCheckbox: function() {
-    var checkbox = document.createElement('input');
+    var checkbox = document.createElement("input");
     checkbox.type = "checkbox";
+    checkbox.checked = false;
     return checkbox;
   },
 
+  createTodoText: function(todo) {
+    var text = document.createElement("p");
+    text.textContent = todo.todoText;
+    return text;
+  },
 
   createDeleteButton: function() {
     var deleteButton = document.createElement("button");
