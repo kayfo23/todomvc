@@ -1,8 +1,7 @@
 //TODO
-  //add checkboxes instead of '(x)' to each todo
-  //clicking checkbox will run toggleCompleted function
   //remove position input & Toggle Completed button
-  //BUG: clicking checkbox immediately removes todo item
+  //BUG: check that when box is checked completed = true
+  //BUG: checkbox is left unchecked again after check
 
 
 
@@ -53,11 +52,14 @@ var handlers = {
     view.displayTodos();
   },
 
-  //place this on each checkbox 
-  toggleCompleted: function() {
-    var toggleCompletedPositionInput = document.getElementById('toggleCompletedPositionInput');
-    todoList.toggleCompleted(toggleCompletedPositionInput.valueAsNumber);
-    toggleCompletedPositionInput.value = '';
+  //place this on each checkbox - remove need for inputing position index
+    //instead of being given input index, need to access via determining 
+    //which id is tied with the button was clicked 
+  toggleCompleted: function(index) {
+    //var toggleCompletedPositionInput = document.getElementById('toggleCompletedPositionInput');
+    //todoList.toggleCompleted(toggleCompletedPositionInput.valueAsNumber);
+    todoList.toggleCompleted(index);
+    //toggleCompletedPositionInput.value = '';
     view.displayTodos();
   },
   toggleAll: function() {
@@ -72,29 +74,22 @@ var view = {
     todosUl.innerHTML = '';
     todoList.todos.forEach(function(todo, position) {
       var todoLi = document.createElement('li');
-
-
-      // var todoTextWithCompletion = '';
-      // if (todo.completed === true) {
-      //   todoTextWithCompletion = '(x) ' + todo.todoText;
-      // } else {
-      //   todoTextWithCompletion = '( ) ' + todo.todoText;
-      // }
-      
       todoLi.id = position;
-      //todoLi.textContent = todo.todoText;     
-      //todoLi.textContent = todoTextWithCompletion;
-      todoLi.appendChild(this.createCheckbox());
+
+      todoLi.appendChild(this.createCheckbox(todo));
       todoLi.appendChild(this.createTodoText(todo));
       todoLi.appendChild(this.createDeleteButton());
       todosUl.appendChild(todoLi);
     }, this);
   },
   
-  createCheckbox: function() {
+  createCheckbox: function(todo) {
     var checkbox = document.createElement("input");
     checkbox.type = "checkbox";
-    checkbox.checked = false;
+    checkbox.className = "checkbox";
+    if (todo.completed === true) {
+      checkbox.checked = true;
+    }
     return checkbox;
   },
 
@@ -110,17 +105,37 @@ var view = {
     deleteButton.className = 'deleteButton';    
     return deleteButton;
   },
+
   //Event Delegation
   setUpEventListeners: function() {
+
+    // var deleteBut = document.getElementById('deleteButton');
+    // deleteBut.addEventListener('click', function(event) {
+    //   console.log(event.target);
+    //   handlers.deleteTodo(parseInt(event.target.parentNode.id));  //still need to fix
+    // });
+    // var checkboxBut = document.querySelector('.checkbox');
+    // checkboxBut.addEventListener('click', function(event) {
+    //   var index = event.target.parentNode.id;
+    //   handlers.toggleCompleted(index);
+    // });
+
     var todosUl = document.querySelector('ul');
     todosUl.addEventListener('click', function(event) {
-      //Get the element clicked
+
       var elementClicked = event.target;
-      //Check if element clicked is a delete button
-      if (elementClicked.className = 'deleteButton') {
+
+      if (elementClicked.className === 'deleteButton') {
         handlers.deleteTodo(parseInt(elementClicked.parentNode.id));
       }
+      if (elementClicked.className === 'checkbox') {
+        handlers.toggleCompleted(elementClicked.parentNode.id);
+        elementClicked.checked = true; //why is it not remaining checked?
+      }
     });
+
+    // todosUl.addEventListener ==> double click on text area to edit todo item
+    
   }
 };
 
