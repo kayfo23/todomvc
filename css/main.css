@@ -1,9 +1,22 @@
+* {
+	margin: 0;
+}
 body {
 	font-family: avenir, tahoma;
+	width: 50%;
+	margin: 0 auto;
 }
+header {
+	text-align: center;
+	padding: 50px;
+}
+
 ul {
 	list-style-type: none;
 }
 li p {
 	display: inline;
+}
+li input {
+	margin: 10px;
 }

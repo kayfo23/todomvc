@@ -1,22 +1,28 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Practical Todos</title>
+    <title>Todos</title>
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link id="favicon" rel="icon" href="https://hyperdev.com/favicon.ico" type="image/x-icon">
   </head>
   <body>
-    <h1>Todo List</h1>
-
+    <header>
+      <h1>Todo List</h1>
+      <p>gotta check em off</p>
+    </header>
 
     <div>
-      <input id="toggle-all" type="checkbox" onclick="handlers.toggleAll()">Toggle All
+      <input id="toggle-all" type="checkbox" onclick="handlers.toggleAll()">
     </div>
     
     <div>
-      <button onclick="handlers.addTodo()">Add</button>
       <input id="addTodoTextInput" type="text">
+      <button onclick="handlers.addTodo()">Add</button>
     </div>
+
+
+    <ul></ul>
+    
     
     <div>
       <button onclick="handlers.changeTodo()">Change Todo</button>
@@ -27,7 +33,7 @@
 
 
 
-    <ul></ul>
+
 
 
 

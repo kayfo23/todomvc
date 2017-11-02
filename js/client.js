@@ -1,3 +1,6 @@
+//TODO
+  //move edit functionality to be a button on every li
+
 
 var todoList = {
   todos: [],
@@ -45,15 +48,8 @@ var handlers = {
     todoList.deleteTodo(position);
     view.displayTodos();
   },
-
-  //place this on each checkbox - remove need for inputing position index
-    //instead of being given input index, need to access via determining 
-    //which id is tied with the button was clicked 
   toggleCompleted: function(index) {
-    //var toggleCompletedPositionInput = document.getElementById('toggleCompletedPositionInput');
-    //todoList.toggleCompleted(toggleCompletedPositionInput.valueAsNumber);
     todoList.toggleCompleted(index);
-    //toggleCompletedPositionInput.value = '';
     view.displayTodos();
   },
   toggleAll: function() {
@@ -76,7 +72,6 @@ var view = {
       todosUl.appendChild(todoLi);
     }, this);
   },
-  
   createCheckbox: function(todo) {
     var checkbox = document.createElement("input");
     checkbox.type = "checkbox";
@@ -86,13 +81,11 @@ var view = {
     }
     return checkbox;
   },
-
   createTodoText: function(todo) {
     var text = document.createElement("p");
     text.textContent = todo.todoText;
     return text;
   },
-
   createDeleteButton: function() {
     var deleteButton = document.createElement("button");
     deleteButton.textContent = 'X';
@@ -102,21 +95,10 @@ var view = {
 
   //Event Delegation
   setUpEventListeners: function() {
-
-    // var deleteBut = document.getElementById('deleteButton');
-    // deleteBut.addEventListener('click', function(event) {
-    //   console.log(event.target);
-    //   handlers.deleteTodo(parseInt(event.target.parentNode.id));  //still need to fix
-    // });
-    // var checkboxBut = document.querySelector('.checkbox');
-    // checkboxBut.addEventListener('click', function(event) {
-    //   var index = event.target.parentNode.id;
-    //   handlers.toggleCompleted(index);
-    // });
-
     var todosUl = document.querySelector('ul');
-    todosUl.addEventListener('click', function(event) {
 
+
+    todosUl.addEventListener('click', function(event) {
       var elementClicked = event.target;
 
       if (elementClicked.className === 'deleteButton') {
@@ -126,6 +108,7 @@ var view = {
         handlers.toggleCompleted(elementClicked.parentNode.id);
         elementClicked.checked = true; //why is it not remaining checked?
       }
+
     });
 
     // todosUl.addEventListener ==> double click on text area to edit todo item
