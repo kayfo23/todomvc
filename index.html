@@ -1,21 +1,19 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Todos</title>
+    <title>kayfo's TodoList</title>
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link id="favicon" rel="icon" href="https://hyperdev.com/favicon.ico" type="image/x-icon">
+    <script src="https://use.fontawesome.com/121a7c00ea.js"></script>
   </head>
   <body>
     <header>
-      <h1>Todo List</h1>
+      <h1><i class="fa fa-check" aria-hidden="true"></i>TodoList</h1>
       <p>gotta check em off</p>
     </header>
-
-    <div>
-      <input id="toggle-all" type="checkbox" onclick="handlers.toggleAll()">
-    </div>
     
-    <div>
+    <div id="top-section">
+      <input id="toggle-all" type="checkbox" onclick="handlers.toggleAll()">
       <input id="addTodoTextInput" type="text">
       <button onclick="handlers.addTodo()">Add</button>
     </div>
@@ -23,19 +21,16 @@
 
     <ul></ul>
     
-    
+
     <div>
       <button onclick="handlers.changeTodo()">Change Todo</button>
       <input id="changeTodoPositionInput" type="number">
       <input id="changeTodoTextInput" type="text">
     </div>
 
-
-
-
-
-
-
+    <footer>
+      <p>by <a href="">@kayfo23</a> for Watch &amp; Code</p>
+    </footer>
 
 
 
