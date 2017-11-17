@@ -1,9 +1,34 @@
 //TODO
-  //move edit functionality to be a button on every li
+
+// BUGS:
+  // 'add' allows empty strings to add to todo list
+
+  // EDIT IMPLEMENTATION
+
+    //set key code variables
+
+    //user dblclicks 'label'
+      //runs switchToEditMode()
+        //find parent list item, 
+        //add hide class to checkbox, label & deletebutton
+        //display editor input (remove hid class)
+        //add 'editing' class to change style (hide label?), 
+        //find the 'hidden' element with class of .edit (was hidden)
+        //focus on the input (now typing)
+
+    //in editor, user types key
+      // runs editOnKeyup()
+        //if key is enter
+          //unfocus from editor -- switch back to label??
+        //if key is esc
+          //abort edits and unfocus
+
+    //update() runs on focusout
 
 
-var todoList = {
+var todoList = {  //model/data
   todos: [],
+
   addTodo: function(todoText) {
     this.todos.push({
       todoText: todoText,
@@ -29,7 +54,7 @@ var todoList = {
   }
 };
 
-var handlers = {
+var handlers = {  // controllers
   addTodo: function() {
     var addTodoTextInput = document.getElementById('addTodoTextInput');
     todoList.addTodo(addTodoTextInput.value);
@@ -55,10 +80,51 @@ var handlers = {
   toggleAll: function() {
     todoList.toggleAll();
     view.displayTodos();
-  }  
+  }, 
+
+  editItem: function(elementClicked) { //called when edit button is clicked
+    var listItem = elementClicked.parentNode;
+    //call separate view method to handle view changes (hide/unhide?)?
+    elementClicked.className += " hide";
+    //hide checkbox, label, and edit button (leave delete visible)
+    //unhide editBox & submitEditButton
+    //
+  },
+  // submitChange: function() { // called when submit edit button is clicked
+  //   //if input val is empty, delete item
+  // },
+
+  setUpEventListeners: function() {
+    
+    var todosUl = document.querySelector('ul');
+
+    todosUl.addEventListener('click', function(event) {
+      var elementClicked = event.target;
+
+      if (elementClicked.className === 'checkbox') {
+        handlers.toggleCompleted(elementClicked.parentNode.id);
+        elementClicked.checked = true;
+      }
+      if (elementClicked.className === 'editButton') {
+        handlers.editItem(elementClicked);
+      }
+      if (elementClicked.className === 'submitEditButton') {
+        //handlers.submitChange();
+      }
+      if (elementClicked.className === 'deleteButton') {
+        handlers.deleteTodo(parseInt(elementClicked.parentNode.id));
+      }
+
+    });
+    
+  
+  } 
+
+
+
 };
 
-var view = {
+var view = {  // view
   displayTodos: function() {
     var todosUl = document.querySelector('ul');
     todosUl.innerHTML = '';
@@ -68,10 +134,15 @@ var view = {
 
       todoLi.appendChild(this.createCheckbox(todo));
       todoLi.appendChild(this.createTodoText(todo));
+      todoLi.appendChild(this.createEditBox());
+      todoLi.appendChild(this.createEditButton());
+      todoLi.appendChild(this.createSubmitEditButton());
       todoLi.appendChild(this.createDeleteButton());
+
       todosUl.appendChild(todoLi);
     }, this);
   },
+
   createCheckbox: function(todo) {
     var checkbox = document.createElement("input");
     checkbox.type = "checkbox";
@@ -82,41 +153,39 @@ var view = {
     return checkbox;
   },
   createTodoText: function(todo) {
-    var text = document.createElement("p");
+    var text = document.createElement("label");
     text.textContent = todo.todoText;
+    text.className = 'todoText';
     return text;
+  },
+  createEditBox: function() {
+    var editBox = document.createElement("input");
+    // editBox.textContent = whatever was already there;
+    editBox.className = 'hide';  //set to hidden until switchToEditMode is called
+    return editBox;
+  },
+  createEditButton: function() {
+    var editButton = document.createElement("button");
+    editButton.textContent = 'edit';
+    editButton.className = 'editButton';
+    return editButton;
+  },
+  createSubmitEditButton: function() {
+    var submitEditButton = document.createElement("button");
+    submitEditButton.textContent = 'ok';
+    submitEditButton.className = 'hide'; //set to hidden until switchToEditMode is called
+    return submitEditButton;
   },
   createDeleteButton: function() {
     var deleteButton = document.createElement("button");
     deleteButton.textContent = 'X';
     deleteButton.className = 'deleteButton';    
     return deleteButton;
-  },
-
-  //Event Delegation
-  setUpEventListeners: function() {
-    var todosUl = document.querySelector('ul');
-
-
-    todosUl.addEventListener('click', function(event) {
-      var elementClicked = event.target;
-
-      if (elementClicked.className === 'deleteButton') {
-        handlers.deleteTodo(parseInt(elementClicked.parentNode.id));
-      }
-      if (elementClicked.className === 'checkbox') {
-        handlers.toggleCompleted(elementClicked.parentNode.id);
-        elementClicked.checked = true; //why is it not remaining checked?
-      }
-
-    });
-
-    // todosUl.addEventListener ==> double click on text area to edit todo item
-    
   }
+  
 };
 
-view.setUpEventListeners();
+handlers.setUpEventListeners();
 
 
 

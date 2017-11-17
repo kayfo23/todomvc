@@ -25,6 +25,13 @@ li p {
 li input {
 	margin: 10px;
 }
+
+
+.hide {
+	display: none;
+}
+
+
 footer {
 	font-size: .7em;
 	text-align: center;
