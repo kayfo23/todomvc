@@ -3,28 +3,6 @@
 // BUGS:
   // 'add' allows empty strings to add to todo list
 
-  // EDIT IMPLEMENTATION
-
-    //set key code variables
-
-    //user dblclicks 'label'
-      //runs switchToEditMode()
-        //find parent list item, 
-        //add hide class to checkbox, label & deletebutton
-        //display editor input (remove hid class)
-        //add 'editing' class to change style (hide label?), 
-        //find the 'hidden' element with class of .edit (was hidden)
-        //focus on the input (now typing)
-
-    //in editor, user types key
-      // runs editOnKeyup()
-        //if key is enter
-          //unfocus from editor -- switch back to label??
-        //if key is esc
-          //abort edits and unfocus
-
-    //update() runs on focusout
-
 
 var todoList = {  //model/data
   todos: [],
@@ -57,8 +35,10 @@ var todoList = {  //model/data
 var handlers = {  // controllers
   addTodo: function() {
     var addTodoTextInput = document.getElementById('addTodoTextInput');
-    todoList.addTodo(addTodoTextInput.value);
-    addTodoTextInput.value = '';
+    if (addTodoTextInput.value !== '') {
+      todoList.addTodo(addTodoTextInput.value);
+      addTodoTextInput.value = '';
+    }
     view.displayTodos();
   },
   changeTodo: function() {
@@ -95,7 +75,6 @@ var handlers = {  // controllers
   // },
 
   setUpEventListeners: function() {
-    
     var todosUl = document.querySelector('ul');
 
     todosUl.addEventListener('click', function(event) {
@@ -116,8 +95,6 @@ var handlers = {  // controllers
       }
 
     });
-    
-  
   } 
 
 
