@@ -106,7 +106,7 @@ var handlers = {  // controllers
       if (elementClicked.classList.contains('submitEditButton')) {
         handlers.submitChange(elementClicked);
       }
-      if (elementClicked.className === 'deleteButton') {
+      if (elementClicked.classList.contains('deleteButton')) {
         handlers.deleteTodo(parseInt(elementClicked.parentNode.id));
       }
 
