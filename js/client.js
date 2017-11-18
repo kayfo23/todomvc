@@ -40,14 +40,6 @@ var handlers = {  // controllers
     }
     view.displayTodos();
   },
-  changeTodo: function() {
-    var changeTodoPositionInput = document.getElementById('changeTodoPositionInput');
-    var changeTodoTextInput = document.getElementById('changeTodoTextInput');
-    todoList.changeTodo(changeTodoPositionInput.valueAsNumber, changeTodoTextInput.value);
-    changeTodoPositionInput.value = '';
-    changeTodoTextInput.value = '';
-    view.displayTodos();
-  },
   deleteTodo: function(position) {
     todoList.deleteTodo(position);
     view.displayTodos();
@@ -88,10 +80,12 @@ var handlers = {  // controllers
       //label text content = editBox value
       console.log(todoLabel);
       todoLabel.innerHTML = editorValue;
+      todoList.changeTodo(listItem.id, editorValue); //update storages
+
       //clear editBox val
       editorValue = '';
       //switch back to regular view - need 'switchtoLabelMode' func or just call view.displayTodos?
-      view.closeEditMode(siblings);      
+      view.closeEditMode(siblings); 
     }
 
   },
