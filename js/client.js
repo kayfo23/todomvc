@@ -63,7 +63,7 @@ var handlers = {  // controllers
     var listItem = elementClicked.parentNode;
     var siblings = listItem.childNodes;
     
-    //get editBox value
+    //get editBox value & current todo value
     var editorValue;
     var todoLabel;
     siblings.forEach(function(sibling) {
@@ -77,13 +77,9 @@ var handlers = {  // controllers
     if (editorValue === '') {
       this.deleteTodo(listItem.id); //'this' refers to handlers object
     } else {
-      //label text content = editBox value
-      console.log(todoLabel);
-      todoLabel.innerHTML = editorValue;
+      todoLabel.innerHTML = editorValue; //update todo value
       todoList.changeTodo(listItem.id, editorValue); //update storages
 
-      //clear editBox val
-      editorValue = '';
       //switch back to regular view - need 'switchtoLabelMode' func or just call view.displayTodos?
       view.closeEditMode(siblings); 
     }
@@ -112,9 +108,6 @@ var handlers = {  // controllers
 
     });
   } 
-
-
-
 };
 
 var view = {  // view
@@ -127,7 +120,7 @@ var view = {  // view
 
       todoLi.appendChild(this.createCheckbox(todo));
       todoLi.appendChild(this.createTodoText(todo));
-      todoLi.appendChild(this.createEditBox());
+      todoLi.appendChild(this.createEditBox(todo));
       todoLi.appendChild(this.createEditButton());
       todoLi.appendChild(this.createSubmitEditButton());
       todoLi.appendChild(this.createDeleteButton());
@@ -151,9 +144,9 @@ var view = {  // view
     text.className = 'todoText display';
     return text;
   },
-  createEditBox: function() {
+  createEditBox: function(todo) {
     var editBox = document.createElement("input");
-    // editBox.textContent = whatever was already there;
+    editBox.value = todo.todoText;
     editBox.className = 'editBox hide';  //set to hidden until switchToEditMode is called
     return editBox;
   },
@@ -179,14 +172,17 @@ var view = {  // view
   switchToEditMode: function(listItemElements) {
     //hide checkbox, label, and edit button (leave delete visible)
     //unhide editBox & submitEditButton
-
     listItemElements.forEach(function(element) {
       if (element.classList.contains("display")) {
         //element.classList.add("hide"); //the class is added but is not hiding the elements
         element.style.display = "none";
+
       }
       if (element.classList.contains("hide")) {
         element.classList.remove("hide");
+        if (element.classList.contains("editBox")) {
+          element.focus();
+        }
       }
     });
   },
