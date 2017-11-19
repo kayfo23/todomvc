@@ -1,6 +1,13 @@
 
 // BUGS:
 
+// NEXT FEATURES:
+  //> localStorage
+  //> hit enter to submit for adding & editing
+  //> remove onclick attributes from HTML (?)
+  //> if todo list is empty, hide toggleAll
+
+  //> styling
 
 
 var todoList = {  //model/data
@@ -39,10 +46,12 @@ var handlers = {  // controllers
       addTodoTextInput.value = '';
     }
     view.displayTodos();
+    document.getElementById('addTodoTextInput').focus();
   },
   deleteTodo: function(position) {
     todoList.deleteTodo(position);
     view.displayTodos();
+    document.getElementById('addTodoTextInput').focus();
   },
   toggleCompleted: function(index) {
     todoList.toggleCompleted(index);
@@ -56,7 +65,6 @@ var handlers = {  // controllers
   editItem: function(elementClicked) { //called when edit button is clicked
     var siblings = elementClicked.parentNode.childNodes;
     view.switchToEditMode(siblings);
-
   },
 
   submitChange: function(elementClicked) { // called when submit edit button is clicked
@@ -82,6 +90,7 @@ var handlers = {  // controllers
 
       //switch back to regular view - need 'switchtoLabelMode' func or just call view.displayTodos?
       view.closeEditMode(siblings); 
+      document.getElementById('addTodoTextInput').focus();
     }
 
   },
@@ -174,9 +183,7 @@ var view = {  // view
     //unhide editBox & submitEditButton
     listItemElements.forEach(function(element) {
       if (element.classList.contains("display")) {
-        //element.classList.add("hide"); //the class is added but is not hiding the elements
         element.style.display = "none";
-
       }
       if (element.classList.contains("hide")) {
         element.classList.remove("hide");
